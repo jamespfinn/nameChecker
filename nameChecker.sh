@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # 2019.01.09 - jamespfinn@gmail.com - script to check domain and social media availability.
 #set -x  
 PRETTY=1
@@ -52,7 +52,7 @@ function checkInstagram(){
 
 function available(){
   if [ $PRETTY -eq 1 ]; then
-    echo -e "\e[92m✔\e[0m"
+    printf "\e[92m✔\e[0m"
   else 
     echo 1
   fi
@@ -60,7 +60,7 @@ function available(){
 
 function unavailable(){
   if [ $PRETTY -eq 1 ]; then
-    echo -e "\e[91m✗\e[0m"
+    printf "\e[91m✗\e[0m"
   else 
     echo 0
   fi
