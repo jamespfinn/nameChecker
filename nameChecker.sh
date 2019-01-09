@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 # 2019.01.09 - jamespfinn@gmail.com - script to check domain and social media availability.
 #set -x  
 PRETTY=1
@@ -7,7 +7,12 @@ WHOIS_TIMEOUT=3
 
 # This function takes as arguments a list of domains to check.  
 function checkDomain() {
-  WHOIS_OUTPUT=$(timeout --signal=KILL $WHOIS_TIMEOUT whois -h whois.verisign-grs.com ${1})
+
+  #check if timeout is available
+  which timeout &>/dev/null && \
+  WHOIS_OUTPUT=$(timeout --signal=KILL $WHOIS_TIMEOUT whois -h whois.verisign-grs.com ${1}) || \
+  WHOIS_OUTPUT=$(whois -h whois.verisign-grs.com ${1})
+
   if [ $? -ne 0 ] ; then
     # TIMEOUT
     return 1
