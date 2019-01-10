@@ -1,8 +1,13 @@
 #!/bin/bash
 # 2019.01.09 - jamespfinn@gmail.com - script to check domain and social media availability.
 #set -x  
-PRETTY=1
-PRINT_HEADER=1
+
+# Pretty output by default, set to 0 to have text 0/1 output
+[ "$PRETTY" == "" ] && PRETTY=1
+
+# Print a header by default, set to 0 to omit header
+[ "$PRINT_HEADER" == "" ] && PRINT_HEADER=1
+
 WHOIS_TIMEOUT=3
 
 # This function takes as arguments a list of domains to check.  
@@ -20,7 +25,7 @@ function checkDomain() {
 
   echo "$WHOIS_OUTPUT" | egrep -q '^No match|^NOT FOUND|^Not fo|AVAILABLE|^No Data Fou|has not been regi|No entri' 
   if [ $? -eq 0 ]; then 
-    echo "${1}: available" >2
+    echo "${1}: available" >/dev/stderr
     return 0
   else
     return 1
@@ -76,5 +81,6 @@ placeholder=$(echo $1 | sed 's/./ /g')
 if [ $PRINT_HEADER -eq 1 ]; then
   echo -e "$placeholder\t.com\tFb\tTw\tInst"
 fi
+
 
 echo -e  "$1\t$(checkDomain ${1}.com && available || unavailable)\t$(checkFacebook $1 && available || unavailable)\t$(checkTwitter $1 && available || unavailable)\t$(checkInstagram $1 && available || unavailable)"
